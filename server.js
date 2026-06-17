@@ -140,6 +140,9 @@ const io = new Server(server, {
       "https://api-gw.mtc.com.na",
       "https://api-gw.mtc.com.na",
       "http://41.219.71.112",
+      "https://uat-portal.erongored.com.na",
+      "https://portal.erongored.com.na",
+
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   },
