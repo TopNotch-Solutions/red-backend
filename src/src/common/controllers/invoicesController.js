@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const InvoicesModel = require('../models/invoicesModel')
 const InvoiceChargeModel = require('../models/invoiceChargesModel');
-const pdf = require('html-pdf-node');
+const { generatePdf } = require('../../../common/services/pdfService');
 const { getPeriodLabel } = require('../services/invoiceService');
 const { isEmpty } = require('../../common/services/utils')
 const { getBcxAuth } = require("../../common/services/requestsService")
@@ -863,7 +863,7 @@ const generateInvoicePDF = async (invoice, invoiceItems) => {
     };
 
     try {
-        await pdf.generatePdf(file, options);
+        await generatePdf(file, options);
         return filePath;
     } catch (err) {
         console.error(`Error generating PDF for invoice Acc: ${invoice.accountNo}, Date: ${invoice.date} at path ${filePath}:`, err);

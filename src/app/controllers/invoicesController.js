@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const InvoicesModel = require('../../common/models/invoicesModel')
 const InvoiceChargeModel = require('../../common/models/invoiceChargesModel');
-const { default: puppeteer } = require('puppeteer');
+const { generatePdf } = require('../../common/services/pdfService');
 const { format } = require('date-fns');
 
 const INVOICE_DIR = 'documents/invoices/'
@@ -91,16 +91,14 @@ const generateInvoicePDF = async (invoice, invoiceItems, targetFilePath) => {
             await fs.promises.mkdir(dir, { recursive: true });
         }
 
-        const browser = await puppeteer.launch({
-             headless: 'new',
-             args: ['--no-sandbox', '--disable-setuid-sandbox']
-        });
-        const page = await browser.newPage();
-        await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
+        const file = { content: htmlContent };
+        const options = {
+            format: 'A4',
+            printBackground: true,
+            path: targetFilePath,
+        };
 
-        await page.pdf({ path: targetFilePath, format: 'A4', printBackground: true });
-
-        await browser.close();
+        await generatePdf(file, options);
         console.log(`Successfully generated PDF: ${targetFilePath}`);
         return targetFilePath;
     } catch (error) {

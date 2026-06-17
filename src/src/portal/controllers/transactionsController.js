@@ -4,7 +4,6 @@ const PaymentsModel = require('../../common/models/paymentsModel')
 const { isEmpty } = require('../../common/services/utils')
 const fs = require('fs').promises
 const path = require('path')
-const pdf = require('html-pdf-node')
 const admin = require('firebase-admin')
 const NotificationsModel = require('../../portal/models/NotificationsModel');
 const UserNotifications = require('../../common/models/UsersNotificationModel');

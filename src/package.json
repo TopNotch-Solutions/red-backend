@@ -24,7 +24,6 @@
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "firebase-admin": "^14.0.0",
-    "html-pdf-node": "^1.0.8",
     "jsonwebtoken": "^9.0.3",
     "madge": "^8.0.0",
     "moment": "^2.30.1",

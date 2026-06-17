@@ -15,7 +15,7 @@ const NotificationsModel = require("../../portal/models/NotificationsModel");
 const UserNotifications = require("../../common/models/UsersNotificationModel");
 const { generateReference } = require("../../common/services/utils");
 const path = require("path");
-const pdf = require('html-pdf-node')
+const { generatePdf } = require('../../common/services/pdfService')
 const fs = require("fs").promises;
 const ReceiptsModel = require("../../common/models/receiptsModel");
 const callExternalApi = require("../../common/services/connectSMS");
@@ -583,7 +583,7 @@ exports.createPayment = async (req, res) => {
       const file = { content: receiptHtml };
       const options = { format: 'A4' };
 
-      receiptBuffer = await pdf.generatePdf(file, options);
+      receiptBuffer = await generatePdf(file, options);
       receiptFileName = `receipt-${newPayment.id}.pdf`;
       
       // Save receipt to file system
