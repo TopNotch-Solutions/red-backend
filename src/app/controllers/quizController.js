@@ -2,7 +2,6 @@ const QuizAnswersModel = require('../models/QuizAnswersModel');
 const QuizAttemptModel = require('../models/QuizAttemptModel');
 const QuizResultsModel = require('../models/QuizResultsModel')
 const { Op } = require('sequelize');
-const { processQuizCompletion } = require('../services/quizServices');
 const sequelize = require('../../config/db')
 const { QuizModel, QuizQuestionModel, usersModel } = require('../../common/models/associations');
 const { isEmpty } = require('../../common/services/isEmpty');
@@ -66,18 +65,16 @@ exports.submitAnswers = async (req, res) => {
             const submittedAnswer = submittedAnswers.get(questionId)
 
             const answer = submittedAnswer || 'Unanswered'
-            const isCorrect = answer !== 'Unaswered' && answer === question.correctAnswer
+            const isCorrect = answer !== 'Unanswered' && answer === question.correctAnswer
 
             if (isCorrect) correctAnswersCount++
 
             await QuizAnswersModel.upsert({ quizId, questionId, userId, answer, isCorrect }, { transaction })
         }
 
-        await QuizResultsModel.upsert({quizId, userId, totalQuestions, correctAnswersCount}, {transaction})
+        await QuizResultsModel.upsert({ quizId, userId, totalQuestions, correctAnswers: correctAnswersCount }, { transaction })
 
         await transaction.commit()
-
-        processQuizCompletion({quizId, userId})
 
         return res.status(200).json({
             status: 'SUCCESS',

@@ -1,6 +1,6 @@
-const { QuizAnswersModel } = require('../models/QuizAnswersModel')
-const { QuizResultsModel } = require('../models/QuizResultsModel')
-const { QuizQuestionModel } = require('../../common/models/QuizQuestionModel')
+const QuizAnswersModel = require('../models/QuizAnswersModel')
+const QuizResultsModel = require('../models/QuizResultsModel')
+const QuizQuestionModel = require('../../common/models/QuizQuestionModel')
 
 exports.processQuizCompletion = async ({ quizId, userId }) => {
     try {
@@ -19,8 +19,7 @@ exports.processQuizCompletion = async ({ quizId, userId }) => {
             quizId,
             userId,
             totalQuestions,
-            correctAnswers,
-            completedAt: new Date()
+            correctAnswers
         })
 
         console.log(`Quiz ${quizId} completed for user ${userId}`)
