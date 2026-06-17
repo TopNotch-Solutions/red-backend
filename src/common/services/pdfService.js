@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const puppeteer = require('puppeteer');
 
 const DEFAULT_MARGIN = {
   top: '0px',
@@ -9,7 +8,17 @@ const DEFAULT_MARGIN = {
   left: '0px',
 };
 
+let puppeteerPromise;
+
+async function getPuppeteer() {
+  if (!puppeteerPromise) {
+    puppeteerPromise = import('puppeteer').then((mod) => mod.default || mod);
+  }
+  return puppeteerPromise;
+}
+
 const generatePdf = async (file, options = {}) => {
+  const puppeteer = await getPuppeteer();
   const browser = await puppeteer.launch({
     headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
