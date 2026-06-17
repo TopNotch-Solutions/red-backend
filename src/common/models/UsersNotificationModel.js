@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize')
 const sequelize = require('../../config/db')
-const { v4: uuidv4 } = require('uuid')
+const { randomUUID: uuidv4 } = require('crypto')
 const NotificationsModel = require('../../portal/models/NotificationsModel')
 const usersModel = require('./usersModel')
 

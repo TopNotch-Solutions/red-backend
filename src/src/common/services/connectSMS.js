@@ -1,4 +1,3 @@
-const fetch = require("node-fetch");
 
 async function callExternalApi(param1, param4, param5) {
   if (!param1 || !param4 || !param5) {

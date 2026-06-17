@@ -1,6 +1,5 @@
 const { getBcxAuth } = require("../../common/services/requestsService")
 const { isEmpty } = require('../../common/services/utils')
-const fetch = require('node-fetch');
 require("dotenv").config();
 
 const balanceDetails = process.env.ENVIRONMENT === 'UAT' 

@@ -2,7 +2,7 @@ const {DataTypes} = require('sequelize')
 const sequelize = require('../../config/db')
 const QuizModel = require('../../portal/models/QuizModel')
 const usersModel = require('../../common/models/usersModel')
-const { v4: uuidv4 } = require('uuid')
+const { randomUUID: uuidv4 } = require('crypto')
 
 const QuizAttemptModel = sequelize.define('QuizAttempts', {
     id:{

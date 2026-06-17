@@ -11,7 +11,6 @@ const admin = require("../../common/services/firebase");
 const UserNotifications = require("../../common/models/UsersNotificationModel");
 const NotificationsModel = require("../../portal/models/NotificationsModel");
 const ElectricityTokensModel = require("../../common/models/electricityTokensModel");
-const fetch = require("node-fetch");
 require("dotenv").config();
 const callExternalApi = require("../../common/services/connectSMS");
 

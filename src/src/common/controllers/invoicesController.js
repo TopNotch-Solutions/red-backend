@@ -6,7 +6,6 @@ const pdf = require('html-pdf-node');
 const { getPeriodLabel } = require('../services/invoiceService');
 const { isEmpty } = require('../../common/services/utils')
 const { getBcxAuth } = require("../../common/services/requestsService")
-const fetch = require('node-fetch');
 const INVOICE_DIR = 'documents/invoices/'
 const logoFilename = 'erongred-logo.png';
 const absoluteLogoPath = path.join(__dirname, '..', '..', '..', 'assets', 'imgs', logoFilename);

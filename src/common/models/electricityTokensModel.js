@@ -1,6 +1,6 @@
 const sequelize = require('../../config/db')
 const {DataTypes} = require('sequelize')
-const { v4: uuidv4 } = require('uuid')
+const { randomUUID: uuidv4 } = require('crypto')
 const TransactionModel = require('./TransactionModel')
 
 const ElectricityTokensModel = sequelize.define('ElectricityToken', {

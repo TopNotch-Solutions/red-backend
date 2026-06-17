@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "To make it easy for you to get started with GitLab, here's a list of recommended next steps.",
   "main": "index.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js"
@@ -27,7 +30,6 @@
     "moment": "^2.30.1",
     "multer": "^2.2.0",
     "mysql2": "^3.22.5",
-    "node-fetch": "^2.7.0",
     "node-schedule": "^2.1.1",
     "nodemailer": "^9.0.0",
     "pdfkit": "^0.19.1",
@@ -37,7 +39,6 @@
     "sequelize": "^6.37.8",
     "socket.io": "^4.8.3",
     "unzipper": "^0.12.3",
-    "uuid": "^14.0.0",
     "xml2js": "^0.6.2"
   },
   "devDependencies": {

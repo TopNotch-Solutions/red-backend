@@ -1,4 +1,3 @@
-const fetch = require('node-fetch');
 require("dotenv").config();
 const url = process.env.ENVIRONMENT === 'UAT' 
     ? process.env.BCX_URL
