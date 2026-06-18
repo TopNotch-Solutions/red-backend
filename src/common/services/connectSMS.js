@@ -1,4 +1,10 @@
 
+require("dotenv").config();
+
+const username = process.env.CONNECTSMS_USERNAME;
+
+const password = process.env.CONNECTSMS_PASSWORD;
+
 async function callExternalApi(param1, param4, param5) {
   if (!param1 || !param4 || !param5) {
     throw new Error("Missing required parameters: from_number, destination, or message");
@@ -6,8 +12,8 @@ async function callExternalApi(param1, param4, param5) {
 
   const url = new URL("https://connectsms.mtc.com.na/SendSMS");
   url.searchParams.append("from_number", param1);
-  url.searchParams.append("username", "erongoredwalvis");
-  url.searchParams.append("password", "erongoredwalvis");
+  url.searchParams.append("username", username);
+  url.searchParams.append("password", password);
   url.searchParams.append("destination", param4);
   url.searchParams.append("message", param5);
 
