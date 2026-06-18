@@ -123,7 +123,7 @@ exports.createTransaction = async (req, res) => {
     try {
       await callExternalApi(
         "Erongo RED",
-        `+${cellphoneNumber}`,
+        `${cellphoneNumber}`,
         `Dear ${user.firstName}, your electricity purchase was successful.\n
 Amount Purchased: N$${amount}\n
 Token: ${tokens.join(", ")}\n

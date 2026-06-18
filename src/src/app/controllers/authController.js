@@ -496,7 +496,7 @@ exports.generateOtp = async (req, res) => {
     try {
       const result = await callExternalApi(
         "Erongo RED",
-        `+${number}`,
+        `${number}`,
         `Your OTP code is ${otpCode}. It is valid for 5 minutes.`
       );
       console.log("External API call result:", result);
@@ -662,7 +662,7 @@ exports.resetPasswordOtp = async (req, res) => {
       if (user) {
         const result = await callExternalApi(
           "Erongo RED",
-          `+${user.cellphoneNumber}`,
+          `${user.cellphoneNumber}`,
           `Your OTP code is ${otpCode}. It is valid for 5 minutes.`
         );
         console.log("External API call result:", result);

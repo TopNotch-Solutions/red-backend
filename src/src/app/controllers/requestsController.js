@@ -1944,7 +1944,7 @@ exports.dpo = async (req, res) => {
       try {
         await callExternalApi(
           "Erongo RED",
-          `+${mobileNumber}`,
+          `${mobileNumber}`,
           `Dear ${user ? user.firstName : "Customer"}, your electricity purchase was successful.\n
 Amount Purchased: N$${amount}\n
 Token: ${tokens.map(formatToken).join(", ")}\n
