@@ -8,6 +8,14 @@ const DEFAULT_MARGIN = {
   left: '0px',
 };
 
+const SYSTEM_CHROME_PATHS = [
+  '/usr/bin/google-chrome-stable',
+  '/usr/bin/google-chrome',
+  '/usr/bin/chromium-browser',
+  '/usr/bin/chromium',
+  '/snap/bin/chromium',
+];
+
 let puppeteerPromise;
 
 async function getPuppeteer() {
@@ -17,11 +25,41 @@ async function getPuppeteer() {
   return puppeteerPromise;
 }
 
+function resolveExecutablePath(puppeteer) {
+  if (process.env.PUPPETEER_EXECUTABLE_PATH) {
+    const configured = process.env.PUPPETEER_EXECUTABLE_PATH;
+    if (!fs.existsSync(configured)) {
+      throw new Error(`PUPPETEER_EXECUTABLE_PATH does not exist: ${configured}`);
+    }
+    return configured;
+  }
+
+  try {
+    const bundled = puppeteer.executablePath();
+    if (bundled && fs.existsSync(bundled)) {
+      return bundled;
+    }
+  } catch {
+    // Puppeteer's bundled Chrome is not installed.
+  }
+
+  const systemChrome = SYSTEM_CHROME_PATHS.find((chromePath) => fs.existsSync(chromePath));
+  if (systemChrome) {
+    return systemChrome;
+  }
+
+  throw new Error(
+    'Chrome/Chromium not found. Run "npx puppeteer browsers install chrome" on the server, ' +
+    'install system Chromium (e.g. apt install chromium-browser), or set PUPPETEER_EXECUTABLE_PATH.'
+  );
+}
+
 const generatePdf = async (file, options = {}) => {
   const puppeteer = await getPuppeteer();
   const browser = await puppeteer.launch({
     headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    executablePath: resolveExecutablePath(puppeteer),
+    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
   });
 
   try {
