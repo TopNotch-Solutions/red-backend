@@ -1,6 +1,14 @@
 const fs = require('fs');
 const path = require('path');
 
+const PROJECT_ROOT = path.join(__dirname, '..', '..', '..');
+const PUPPETEER_CACHE_DIR =
+  process.env.PUPPETEER_CACHE_DIR || path.join(PROJECT_ROOT, '.cache', 'puppeteer');
+
+if (!process.env.PUPPETEER_CACHE_DIR) {
+  process.env.PUPPETEER_CACHE_DIR = PUPPETEER_CACHE_DIR;
+}
+
 const DEFAULT_MARGIN = {
   top: '0px',
   right: '0px',
@@ -13,6 +21,8 @@ const SYSTEM_CHROME_PATHS = [
   '/usr/bin/google-chrome',
   '/usr/bin/chromium-browser',
   '/usr/bin/chromium',
+  '/usr/lib64/chromium-browser/chromium-browser',
+  '/usr/lib64/chromium/chromium',
   '/snap/bin/chromium',
 ];
 
@@ -23,6 +33,28 @@ async function getPuppeteer() {
     puppeteerPromise = import('puppeteer').then((mod) => mod.default || mod);
   }
   return puppeteerPromise;
+}
+
+function findChromeInCache(cacheDir) {
+  const chromeRoot = path.join(cacheDir, 'chrome');
+  if (!fs.existsSync(chromeRoot)) {
+    return null;
+  }
+
+  const builds = fs.readdirSync(chromeRoot).sort().reverse();
+  for (const build of builds) {
+    const candidates = [
+      path.join(chromeRoot, build, 'chrome-linux64', 'chrome'),
+      path.join(chromeRoot, build, 'chrome-linux', 'chrome'),
+    ];
+
+    const match = candidates.find((candidate) => fs.existsSync(candidate));
+    if (match) {
+      return match;
+    }
+  }
+
+  return null;
 }
 
 function resolveExecutablePath(puppeteer) {
@@ -43,14 +75,20 @@ function resolveExecutablePath(puppeteer) {
     // Puppeteer's bundled Chrome is not installed.
   }
 
+  const cachedChrome = findChromeInCache(PUPPETEER_CACHE_DIR);
+  if (cachedChrome) {
+    return cachedChrome;
+  }
+
   const systemChrome = SYSTEM_CHROME_PATHS.find((chromePath) => fs.existsSync(chromePath));
   if (systemChrome) {
     return systemChrome;
   }
 
   throw new Error(
-    'Chrome/Chromium not found. Run "npx puppeteer browsers install chrome" on the server, ' +
-    'install system Chromium (e.g. apt install chromium-browser), or set PUPPETEER_EXECUTABLE_PATH.'
+    `Chrome/Chromium not found. Cache dir: ${PUPPETEER_CACHE_DIR}. ` +
+    'From the project root run: npm run install:chrome ' +
+    '(or on RHEL: sudo dnf install -y chromium && set PUPPETEER_EXECUTABLE_PATH to the binary path).'
   );
 }
 

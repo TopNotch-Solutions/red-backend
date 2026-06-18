@@ -9,7 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js",
-    "postinstall": "npx puppeteer browsers install chrome"
+    "postinstall": "node scripts/install-chrome.js",
+    "install:chrome": "node scripts/install-chrome.js"
   },
   "keywords": [],
   "author": "",
