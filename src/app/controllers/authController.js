@@ -229,13 +229,20 @@ console.log("Here is the login body", req.body);
     });
   }
 
-  if (!appVersion || isEmpty(appVersion || appVersion  !== APP_VERSION)) {
+  if (!appVersion || isEmpty(appVersion)) {
+    return res.status(400).json({
+      status: "FAILED",
+      message: "Please update your app to the latest version.",
+    });
+  }
+  if (appVersion  !== APP_VERSION) {
     return res.status(400).json({
       status: "FAILED",
       message: "Please update your app to the latest version.",
     });
   }
   
+
   if (!password || isEmpty(password)) {
     return res.status(400).json({
       status: "FAILED",
