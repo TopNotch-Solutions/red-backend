@@ -23,6 +23,8 @@ const callExternalApi = require("../../common/services/connectSMS");
 const AnonymousUsersModel = require("../../common/models/anonymousUsers");
 require("dotenv").config();
 
+const APP_VERSION = "1.0.8";
+
 exports.signUp = async (req, res) => {
   const {
     firstName,
@@ -210,8 +212,8 @@ exports.signUp = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-  const { email, password, fcmToken } = req.body;
-
+  const { email, password, fcmToken, appVersion} = req.body;
+console.log("Here is the login body", req.body);
   // --- Input Validation ---
   if (!email || isEmpty(email)) {
     return res.status(400).json({
@@ -227,6 +229,13 @@ exports.login = async (req, res) => {
     });
   }
 
+  if (!appVersion || isEmpty(appVersion || appVersion  !== APP_VERSION)) {
+    return res.status(400).json({
+      status: "FAILED",
+      message: "Please update your app to the latest version.",
+    });
+  }
+  
   if (!password || isEmpty(password)) {
     return res.status(400).json({
       status: "FAILED",
