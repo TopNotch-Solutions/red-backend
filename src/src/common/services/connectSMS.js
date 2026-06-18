@@ -4,7 +4,7 @@ async function callExternalApi(param1, param4, param5) {
     throw new Error("Missing required parameters: from_number, destination, or message");
   }
 
-  const url = new URL("https://connectsms.mtc.com.na/api.asmx/SendSMS");
+  const url = new URL("https://connectsms.mtc.com.na/SendSMS");
   url.searchParams.append("from_number", param1);
   url.searchParams.append("username", "erongoredwalvis");
   url.searchParams.append("password", "erongoredwalvis");
