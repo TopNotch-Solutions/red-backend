@@ -1,6 +1,6 @@
 const { transporter } = require("../../common/services/transporter");
 require("dotenv").config();
-const env = rocess.env.ENVIRONMENT;
+const env = process.env.ENVIRONMENT;
 
 const sendVendNotificationEmail = (transaction) => {
 
