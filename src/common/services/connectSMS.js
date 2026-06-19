@@ -23,7 +23,6 @@ async function callExternalApi(param1, param4, param5) {
 
   try {
     let response = await sendSms();
-    console.log("sms connect response: ", response, param1, param4, param5, username, password)
     if (!response.ok) {
 
       const errorText = await response.text();

@@ -1,12 +1,13 @@
 const { transporter } = require("../../common/services/transporter");
 require("dotenv").config();
+const env = rocess.env.ENVIRONMENT;
 
 const sendVendNotificationEmail = (transaction) => {
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: ["PWilhelm@mtc.com.na"],
-    subject: "Vend Transaction Notification - ErongoRED",
+    subject: `Vend Transaction Notification ${env} - ErongoRED`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px;">
         <h2 style="color: #2c3e50;">Vend Transaction Alert</h2>

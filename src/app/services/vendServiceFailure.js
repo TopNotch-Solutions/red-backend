@@ -1,6 +1,7 @@
 
 const { transporter } = require("../../common/services/transporter");
 require("dotenv").config();
+const env = process.env.ENVIRONMENT;
 
 const sendVendNotificationEmailFailure = (
   transaction,
@@ -15,7 +16,7 @@ const sendVendNotificationEmailFailure = (
       "TKandjimwena@mtc.com.na",
       "DKoopman@mtc.com.na",
     ],
-    subject: "Vend Transaction FAILED UAT - ErongoRED",
+    subject: `Vend Transaction FAILED ${env} - ErongoRED`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 800px;">
         <h2 style="color: #c0392b;">Vend Transaction Failure Alert</h2>
