@@ -92,6 +92,7 @@ exports.updateFile = async (req, res) => {
         fileRecord.title = title;
         fileRecord.description = description;
         await fileRecord.save();
+        await redisClient.del("files");
         return res.status(200).json({
             status: 'SUCCESS',
             message: 'File updated successfully'
@@ -154,7 +155,7 @@ exports.deleteFile = async (req, res) => {
                 }
             }
         });
-
+        await redisClient.del("files");
         return res.status(200).json({
             status: 'SUCCESS',
             message: `${deletedDbRecords} file(s) deleted successfully`

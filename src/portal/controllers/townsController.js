@@ -62,7 +62,7 @@ exports.updateTown = async (req, res) => {
 
         existingTown.town = town
         await existingTown.save()
-
+        await redisClient.del("towns");
         return res.status(200).json({
             status: 'SUCCESS',
             message: 'Town updated successfully',
@@ -102,7 +102,7 @@ exports.deleteTown = async (req, res) => {
                 message: 'No towns found with the provided IDs'
             });
         }
-
+        await redisClient.del("towns");
         return res.status(200).json({
             status: 'SUCCESS',
             message: `${deletedCount} town(s) deleted successfully`

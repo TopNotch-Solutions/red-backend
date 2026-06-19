@@ -97,7 +97,7 @@ exports.deleteTips = async (req, res) => {
                 message: 'No tips found with the provided IDs'
             });
         }
-
+        await redisClient.del("tips");
         return res.status(200).json({
             status: 'SUCCESS',
             message: `${deletedCount} tip(s) deleted successfully`
@@ -177,7 +177,7 @@ exports.addSingleTip = async (req, res) => {
             await TipItemsModel.bulkCreate(tipsItemsData, { transaction })
 
             await transaction.commit()
-
+            await redisClient.del("tips");
             return res.status(201).json({
                 status: 'SUCCESS',
                 message: 'Tip add successfully'
@@ -265,7 +265,7 @@ exports.updateTips = async (req, res) => {
             }
 
             await transaction.commit();
-
+            await redisClient.del("tips");
             return res.status(200).json({
                 status: 'SUCCESS',
                 message: 'Tips updated successfully'
@@ -321,6 +321,7 @@ exports.deleteTipImage = async (req, res) => {
         }
 
         await tip.update({ image: null });
+        await redisClient.del("tips");
 
         return res.status(200).json({
             status: 'SUCCESS',

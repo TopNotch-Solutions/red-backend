@@ -97,7 +97,7 @@ exports.updateAdvert = async (req, res) => {
         if (image) advert.image = image
 
         await advert.save()
-
+        await redisClient.del("adverts");
         res.status(200).json({
             status: 'SUCCESS',
             message: 'Advert updated successfully',
@@ -137,7 +137,7 @@ exports.deleteAdvert = async (req, res) => {
                 message: 'No adverts found with the provided IDs'
             });
         }
-
+        await redisClient.del("adverts");
         res.status(200).json({
             status: 'SUCCESS',
             message: `${deletedCount} advert(s) deleted successfully`

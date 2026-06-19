@@ -138,7 +138,7 @@ exports.updateNews = async (req, res) => {
         if (imageUrl) news.imageUrl = imageUrl
 
         await news.save()
-
+        await redisClient.del("news");
         res.status(200).json({
             status: 'SUCCESS',
             message: 'News updated successfully',
@@ -221,7 +221,7 @@ exports.deleteNews = async (req, res) => {
                 message: 'No news articles found with the provided IDs'
             });
         }
-
+        await redisClient.del("news");
         res.status(200).json({
             status: 'SUCCESS',
             message: `${deletedCount} news article(s) deleted successfully`
